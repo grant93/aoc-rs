@@ -1,4 +1,4 @@
-use crate::aoc2019::intcode::intcode;
+use crate::aoc2019::intcode;
 use rstest::rstest;
 use std::io;
 use std::str;

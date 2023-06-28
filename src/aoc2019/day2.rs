@@ -1,4 +1,4 @@
-use crate::aoc2019::intcode::intcode;
+use crate::aoc2019::intcode;
 use rstest::rstest;
 
 fn partone(input: Vec<i64>) -> i64 {
