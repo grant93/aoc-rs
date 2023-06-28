@@ -2,13 +2,13 @@ use crate::utils::file;
 use rstest::rstest;
 
 fn partone(input: &mut Vec<i64>) -> i64 {
-    input.iter().map(|x| (x/3) - 2).sum()
+    input.iter().map(|x| (x / 3) - 2).sum()
 }
 
 fn recurse(input: i64) -> i64 {
     let a = (input / 3) - 2;
     if a <= 0 {
-        return 0
+        return 0;
     }
     a + recurse(a)
 }
@@ -33,5 +33,4 @@ mod tests {
         let mut input = file::read_lines_to_i64s(input);
         assert_eq!(expected, parttwo(&mut input))
     }
-
 }

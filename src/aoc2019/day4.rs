@@ -1,14 +1,15 @@
-use std::collections::{HashMap, HashSet};
 use rstest::rstest;
 
 fn apply_rules(input: String, part_two: bool) -> u8 {
     let mut chars: Vec<char> = input.chars().collect();
     let mut repeat = false;
     for i in 1..6 {
-        if chars[i] < chars[i-1] { 
+        if chars[i] < chars[i - 1] {
             return 0;
-        } else if !repeat && chars[i] == chars[i-1] {
-            if part_two && ((i != 5 && chars[i] == chars[i+1]) || (i != 1 && chars[i] == chars[i-2])) {
+        } else if !repeat && chars[i] == chars[i - 1] {
+            if part_two
+                && ((i != 5 && chars[i] == chars[i + 1]) || (i != 1 && chars[i] == chars[i - 2]))
+            {
                 continue;
             }
             repeat = true;
@@ -32,7 +33,6 @@ fn run(input: String, part_two: bool) -> u32 {
     count
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -49,5 +49,4 @@ mod tests {
     fn parttwo_test(#[case] input: String, #[case] expected: u32) {
         assert_eq!(expected, run(input, true))
     }
-
 }
