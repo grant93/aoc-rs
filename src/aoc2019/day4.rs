@@ -1,7 +1,7 @@
 use rstest::rstest;
 
 fn apply_rules(input: String, part_two: bool) -> u8 {
-    let mut chars: Vec<char> = input.chars().collect();
+    let chars: Vec<char> = input.chars().collect();
     let mut repeat = false;
     for i in 1..6 {
         if chars[i] < chars[i - 1] {
