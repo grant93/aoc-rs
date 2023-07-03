@@ -1,5 +1,5 @@
-use std::io;
 use std::clone::Clone;
+use std::io;
 
 #[derive(FromPrimitive)]
 enum OpCode {
@@ -21,16 +21,13 @@ pub enum Status {
     Halted = 1,
 }
 
-#[derive(Clone)]
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 enum Mode {
     Default = 0,
     Pause = 1,
 }
 
-#[derive(Debug)]
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct VirtualMachine {
     memory: Vec<i64>,
     ip: usize,
@@ -62,12 +59,12 @@ impl VirtualMachine {
                 Some(OpCode::Addition) => self.add(),
                 Some(OpCode::Multiply) => self.multiply(),
                 Some(OpCode::Input) => self.input(input),
-                Some(OpCode::Output) => { 
+                Some(OpCode::Output) => {
                     self.output(output);
                     if self.mode == Mode::Pause {
                         return (Status::Paused, 0);
                     }
-                },
+                }
                 Some(OpCode::JumpIfTrue) => self.jump_if_true(),
                 Some(OpCode::JumpIfFalse) => self.jump_if_false(),
                 Some(OpCode::LessThan) => self.less_than(),
