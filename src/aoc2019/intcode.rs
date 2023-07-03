@@ -1,4 +1,5 @@
 use std::io;
+use std::clone::Clone;
 
 #[derive(FromPrimitive)]
 enum OpCode {
@@ -14,13 +15,30 @@ enum OpCode {
     Halt = 99,
 }
 
+#[derive(PartialEq)]
+pub enum Status {
+    Paused = 0,
+    Halted = 1,
+}
+
+#[derive(Clone)]
 #[derive(Debug)]
+#[derive(PartialEq)]
+enum Mode {
+    Default = 0,
+    Pause = 1,
+}
+
+#[derive(Debug)]
+#[derive(Clone)]
 pub struct VirtualMachine {
     memory: Vec<i64>,
     ip: usize,
     base: i64,
+    mode: Mode,
 }
 
+//TODO: change the stdin/stdout to expect bytes, not strings.
 impl VirtualMachine {
     pub fn new(mut mem: Vec<i64>) -> Self {
         let mut extra: Vec<i64> = vec![0; 2000];
@@ -29,23 +47,33 @@ impl VirtualMachine {
             memory: mem,
             ip: 0,
             base: 0,
+            mode: Mode::Default,
         }
     }
 
-    pub fn run(&mut self, input: &mut Vec<i64>, output: &mut dyn io::Write) -> i64 {
+    pub fn pause_mode(&mut self) {
+        self.mode = Mode::Pause;
+    }
+
+    pub fn run(&mut self, input: &mut Vec<i64>, output: &mut dyn io::Write) -> (Status, i64) {
         loop {
             let instr = self.memory[self.ip] % 100;
             match num::FromPrimitive::from_i64(instr) {
                 Some(OpCode::Addition) => self.add(),
                 Some(OpCode::Multiply) => self.multiply(),
                 Some(OpCode::Input) => self.input(input),
-                Some(OpCode::Output) => self.output(output),
+                Some(OpCode::Output) => { 
+                    self.output(output);
+                    if self.mode == Mode::Pause {
+                        return (Status::Paused, 0);
+                    }
+                },
                 Some(OpCode::JumpIfTrue) => self.jump_if_true(),
                 Some(OpCode::JumpIfFalse) => self.jump_if_false(),
                 Some(OpCode::LessThan) => self.less_than(),
                 Some(OpCode::Equals) => self.equals(),
                 Some(OpCode::AdjustBase) => self.adjustbase(),
-                Some(OpCode::Halt) => return self.halt(),
+                Some(OpCode::Halt) => return (Status::Halted, self.halt()),
                 _ => panic!("AHHH"),
             };
         }
@@ -83,7 +111,7 @@ impl VirtualMachine {
     }
 
     fn input(&mut self, input: &mut Vec<i64>) {
-        self.write_result(1, input[0]);
+        self.write_result(1, input.remove(0));
         self.ip += 2;
     }
 
@@ -127,11 +155,13 @@ impl VirtualMachine {
     }
 
     fn output(&mut self, output: &mut dyn io::Write) {
-        writeln!(output, "{}", self.parse_arg(1)).unwrap();
+        let i = self.parse_arg(1);
+        writeln!(output, "{}", i).unwrap();
         self.ip += 2;
     }
 
     fn halt(&self) -> i64 {
+        println!("HALTING!!!");
         self.memory[0]
     }
 }

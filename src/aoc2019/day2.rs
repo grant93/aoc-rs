@@ -5,7 +5,8 @@ fn partone(input: Vec<i64>) -> i64 {
     let mut vec = Vec::new();
     let mut vec2 = Vec::new();
     let mut vm = intcode::VirtualMachine::new(input);
-    vm.run(&mut vec, &mut vec2)
+    let (_status, retval) = vm.run(&mut vec, &mut vec2);
+    retval
 }
 
 fn parttwo(input: Vec<i64>) -> i64 {
@@ -18,7 +19,7 @@ fn parttwo(input: Vec<i64>) -> i64 {
             let mut a = input.clone();
             a[1] = x;
             a[2] = y;
-            let z = intcode::VirtualMachine::new(a).run(&mut vec, &mut vec2);
+            let (_status, z) = intcode::VirtualMachine::new(a).run(&mut vec, &mut vec2);
             if z == 19690720 {
                 return (100 * x) + y;
             }

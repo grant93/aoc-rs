@@ -5,7 +5,8 @@ use std::str;
 
 fn partone(instr: Vec<i64>, input: &mut Vec<i64>, stdout: &mut dyn io::Write) -> i64 {
     let mut vm = intcode::VirtualMachine::new(instr);
-    vm.run(input, stdout)
+    let (_status, retval) = vm.run(input, stdout);
+    retval
 }
 
 #[cfg(test)]
