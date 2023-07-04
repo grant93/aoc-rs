@@ -65,7 +65,7 @@ fn find_closest_steps(a: &HashMap<(i32, i32), u32>, b: &HashMap<(i32, i32), u32>
 
 fn partone(input: String) -> u32 {
     let a: Vec<HashMap<(i32, i32), u32>> = input
-        .split("\n")
+        .lines()
         .map(|x| create_wire(x.to_string()))
         .collect::<Vec<_>>();
     return find_closest(a.first().unwrap(), a.last().unwrap());
@@ -73,7 +73,7 @@ fn partone(input: String) -> u32 {
 
 fn parttwo(input: String) -> u32 {
     let a: Vec<HashMap<(i32, i32), u32>> = input
-        .split("\n")
+        .lines()
         .map(|x| create_wire(x.to_string()))
         .collect::<Vec<_>>();
     return find_closest_steps(a.first().unwrap(), a.last().unwrap());

@@ -1,7 +1,6 @@
 use super::intcode;
 use itertools::Itertools;
 use rstest::rstest;
-use std::io;
 use std::str;
 
 fn part_one(input: String) -> i64 {
@@ -67,7 +66,7 @@ fn part_two(input: String) -> i64 {
                     inp = str::from_utf8(&stdout)
                         .unwrap()
                         .to_string()
-                        .split("\n")
+                        .lines()
                         .filter(|&x| !x.is_empty())
                         .map(|x| x.parse::<i64>().unwrap())
                         .collect();

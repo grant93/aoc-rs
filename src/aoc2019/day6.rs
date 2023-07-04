@@ -4,7 +4,7 @@ use std::collections::{HashMap, HashSet};
 
 fn build_map<'a>(input: String) -> HashMap<String, String> {
     let mut map: HashMap<String, String> = HashMap::new();
-    for line in input.split("\n") {
+    for line in input.lines() {
         let objs: Vec<&str> = line.split(")").collect();
         map.insert(objs[1].to_owned(), objs[0].to_owned());
     }
