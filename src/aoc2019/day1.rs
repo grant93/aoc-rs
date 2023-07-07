@@ -1,7 +1,6 @@
-use crate::utils::file;
-use rstest::rstest;
+#![allow(dead_code)]
 
-fn partone(input: &mut Vec<i64>) -> i64 {
+fn partone(input: &mut [i64]) -> i64 {
     input.iter().map(|x| (x / 3) - 2).sum()
 }
 
@@ -13,13 +12,15 @@ fn recurse(input: i64) -> i64 {
     a + recurse(a)
 }
 
-fn parttwo(input: &mut Vec<i64>) -> i64 {
+fn parttwo(input: &mut [i64]) -> i64 {
     input.iter().map(|x| recurse(*x)).sum()
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::utils::file;
+    use rstest::rstest;
 
     #[rstest]
     #[case("src/aoc2019/input/day1.txt", 3455717)]

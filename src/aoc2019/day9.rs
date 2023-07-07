@@ -1,7 +1,6 @@
+#![allow(dead_code)]
 use crate::aoc2019::intcode;
-use rstest::rstest;
 use std::io;
-use std::str;
 
 fn partone(instr: Vec<i64>, input: &mut Vec<i64>, stdout: &mut dyn io::Write) -> i64 {
     let mut vm = intcode::VirtualMachine::new(instr);
@@ -12,6 +11,8 @@ fn partone(instr: Vec<i64>, input: &mut Vec<i64>, stdout: &mut dyn io::Write) ->
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+    use std::str;
 
     #[rstest]
     #[case(vec![109, -1, 4, 1, 99], vec![1], "-1")]

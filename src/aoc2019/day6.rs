@@ -1,27 +1,24 @@
-use indoc::indoc;
-use rstest::rstest;
+#![allow(dead_code)]
 use std::collections::{HashMap, HashSet};
 
-fn build_map<'a>(input: String) -> HashMap<String, String> {
+fn build_map(input: String) -> HashMap<String, String> {
     let mut map: HashMap<String, String> = HashMap::new();
     for line in input.lines() {
-        let objs: Vec<&str> = line.split(")").collect();
+        let objs: Vec<&str> = line.split(')').collect();
         map.insert(objs[1].to_owned(), objs[0].to_owned());
     }
     map
 }
 
 // Count the orbits and build sets per starting point.
-fn count_orbits<'a>(
-    map: &'a HashMap<String, String>,
-) -> (HashMap<&'a String, HashSet<&'a String>>, u32) {
+fn count_orbits(map: &HashMap<String, String>) -> (HashMap<&String, HashSet<&String>>, u32) {
     let mut path_map: HashMap<&String, HashSet<&String>> = HashMap::new();
     let mut count: u32 = 0;
     for k in map.keys() {
         let mut set: HashSet<&String> = HashSet::new();
         let mut curr = k;
         while map.contains_key(curr) {
-            curr = &map.get(curr).unwrap();
+            curr = map.get(curr).unwrap();
             set.insert(curr);
             count += 1;
         }
@@ -35,18 +32,20 @@ fn count_orbits<'a>(
 fn part_two(paths: HashMap<&String, HashSet<&String>>) -> usize {
     let you = paths.get(&"YOU".to_owned());
     let san = paths.get(&"SAN".to_owned());
-    you.unwrap().symmetric_difference(&(san.unwrap())).count()
+    you.unwrap().symmetric_difference(san.unwrap()).count()
 }
 
 fn run(input: String) -> (u32, u32) {
     let map = build_map(input);
     let (a, b) = count_orbits(&map);
-    return (b, part_two(a) as u32);
+    (b, part_two(a) as u32)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use indoc::indoc;
+    use rstest::rstest;
 
     #[rstest]
     #[case(indoc! {"COM)B

@@ -1,13 +1,13 @@
+#![allow(dead_code)]
 use super::intcode;
 use itertools::Itertools;
-use rstest::rstest;
 use std::str;
 
 fn part_one(input: String) -> i64 {
     let mut max_power: i64 = 0;
     let base: Vec<i64> = vec![0, 1, 2, 3, 4];
     let instr: Vec<i64> = input
-        .split(",")
+        .split(',')
         .map(|x| x.parse::<i64>().unwrap())
         .collect();
     for perm in base.iter().permutations(base.len()).unique() {
@@ -30,7 +30,7 @@ fn part_one(input: String) -> i64 {
             max_power = power;
         }
     }
-    return max_power;
+    max_power
 }
 
 // this question was really badly worded or I was too tired to understand.. TODO(): clean me up.
@@ -38,7 +38,7 @@ fn part_two(input: String) -> i64 {
     let mut max_power: i64 = 0;
     let base: Vec<i64> = vec![5, 6, 7, 8, 9];
     let instr: Vec<i64> = input
-        .split(",")
+        .split(',')
         .map(|x| x.parse::<i64>().unwrap())
         .collect();
     for perm in base.iter().permutations(base.len()).unique() {
@@ -81,12 +81,13 @@ fn part_two(input: String) -> i64 {
             max_power = power;
         }
     }
-    return max_power;
+    max_power
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[rstest]
     #[case("3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0", 43210)]

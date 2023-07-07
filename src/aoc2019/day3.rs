@@ -1,4 +1,4 @@
-use rstest::rstest;
+#![allow(dead_code)]
 use std::collections::{HashMap, HashSet};
 
 fn create_wire(path: String) -> HashMap<(i32, i32), u32> {
@@ -8,9 +8,9 @@ fn create_wire(path: String) -> HashMap<(i32, i32), u32> {
     let (mut x, mut y): (i32, i32) = (0, 0);
     let mut set: HashMap<(i32, i32), u32> = HashMap::new();
     let mut steps: u32 = 0;
-    for i in path.split(",") {
+    for i in path.split(',') {
         // only dealing with ascii, totes fine.
-        let (dir, scalar) = (i.chars().nth(0).unwrap(), i[1..].parse::<i32>().unwrap());
+        let (dir, scalar) = (i.chars().next().unwrap(), i[1..].parse::<i32>().unwrap());
         let dir = directions[&dir];
         for _s in 0..scalar {
             steps += 1;
@@ -32,7 +32,7 @@ fn manhattan_distance(mut x: i32, mut y: i32) -> u32 {
         y *= -1;
     }
 
-    return (x + y) as u32;
+    (x + y) as u32
 }
 
 fn find_closest(a: &HashMap<(i32, i32), u32>, b: &HashMap<(i32, i32), u32>) -> u32 {
@@ -46,7 +46,7 @@ fn find_closest(a: &HashMap<(i32, i32), u32>, b: &HashMap<(i32, i32), u32>) -> u
             closest = dist;
         }
     }
-    return closest;
+    closest
 }
 
 fn find_closest_steps(a: &HashMap<(i32, i32), u32>, b: &HashMap<(i32, i32), u32>) -> u32 {
@@ -60,7 +60,7 @@ fn find_closest_steps(a: &HashMap<(i32, i32), u32>, b: &HashMap<(i32, i32), u32>
             closest = dist;
         }
     }
-    return closest;
+    closest
 }
 
 fn partone(input: String) -> u32 {
@@ -68,7 +68,7 @@ fn partone(input: String) -> u32 {
         .lines()
         .map(|x| create_wire(x.to_string()))
         .collect::<Vec<_>>();
-    return find_closest(a.first().unwrap(), a.last().unwrap());
+    find_closest(a.first().unwrap(), a.last().unwrap())
 }
 
 fn parttwo(input: String) -> u32 {
@@ -76,12 +76,13 @@ fn parttwo(input: String) -> u32 {
         .lines()
         .map(|x| create_wire(x.to_string()))
         .collect::<Vec<_>>();
-    return find_closest_steps(a.first().unwrap(), a.last().unwrap());
+    find_closest_steps(a.first().unwrap(), a.last().unwrap())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[rstest]
     #[case(

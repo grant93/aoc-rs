@@ -1,5 +1,5 @@
+#![allow(dead_code)]
 use crate::aoc2019::intcode;
-use rstest::rstest;
 
 fn partone(input: Vec<i64>) -> i64 {
     let mut vec = Vec::new();
@@ -33,6 +33,7 @@ fn parttwo(input: Vec<i64>) -> i64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[rstest]
     #[case(vec![1,9,10,3,2,3,11,0,99,30,40,50], 3500)]

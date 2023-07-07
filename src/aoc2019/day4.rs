@@ -1,4 +1,4 @@
-use rstest::rstest;
+#![allow(dead_code)]
 
 fn apply_rules(input: String, part_two: bool) -> u8 {
     let chars: Vec<char> = input.chars().collect();
@@ -18,7 +18,7 @@ fn apply_rules(input: String, part_two: bool) -> u8 {
     if !repeat {
         return 0;
     }
-    return 1;
+    1
 }
 
 fn run(input: String, part_two: bool) -> u32 {
@@ -36,6 +36,7 @@ fn run(input: String, part_two: bool) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[rstest]
     #[case("137683-596253", 1864)]
