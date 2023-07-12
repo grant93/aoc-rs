@@ -20,6 +20,7 @@ enum OpCode {
 pub enum Status {
     Paused = 0,
     Halted = 1,
+    InputRequired = 2,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -59,7 +60,12 @@ impl VirtualMachine {
             match num::FromPrimitive::from_i64(instr) {
                 Some(OpCode::Addition) => self.add(),
                 Some(OpCode::Multiply) => self.multiply(),
-                Some(OpCode::Input) => self.input(input),
+                Some(OpCode::Input) => {
+                    if input.is_empty() {
+                        return (Status::InputRequired, 0);
+                    }
+                    self.input(input);
+                }
                 Some(OpCode::Output) => {
                     self.output(output);
                     if self.mode == Mode::Pause {
